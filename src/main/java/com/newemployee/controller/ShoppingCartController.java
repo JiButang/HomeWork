@@ -108,7 +108,7 @@ public class ShoppingCartController {
         } else {
             //总价
             for (ShoppingCartItemVO newBeeMallShoppingCartItemVO : itemsForSettle) {
-                priceTotal += newBeeMallShoppingCartItemVO.getItemsCount() * newBeeMallShoppingCartItemVO.getSellingPrice();
+                priceTotal += newBeeMallShoppingCartItemVO.getGoodsCount() * newBeeMallShoppingCartItemVO.getSellingPrice();
             }
             if (priceTotal < 1) {
                 BaseException.toss("价格异常");

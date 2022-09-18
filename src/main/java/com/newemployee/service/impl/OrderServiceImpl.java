@@ -187,7 +187,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public String saveOrder(UserDO loginMallUser, UserAddressDO address, List<ShoppingCartItemVO> myShoppingCartItems) {
         List<Long> itemIdList = myShoppingCartItems.stream().map(ShoppingCartItemVO::getCartItemId).collect(Collectors.toList());
-        List<Long> goodsIds = myShoppingCartItems.stream().map(ShoppingCartItemVO::getItemsId).collect(Collectors.toList());
+        List<Long> goodsIds = myShoppingCartItems.stream().map(ShoppingCartItemVO::getGoodsId).collect(Collectors.toList());
         List<ItemsDO> newBeeMallGoods = itemsDOMapper.selectByPrimaryKeys(goodsIds);
         //检查是否包含已下架商品
         List<ItemsDO> goodsListNotSelling = newBeeMallGoods.stream()
@@ -201,11 +201,11 @@ public class OrderServiceImpl implements OrderService {
         //判断商品库存
         for (ShoppingCartItemVO shoppingCartItemVO : myShoppingCartItems) {
             //查出的商品中不存在购物车中的这条关联商品数据，直接返回错误提醒
-            if (!newBeeMallGoodsMap.containsKey(shoppingCartItemVO.getItemsId())) {
+            if (!newBeeMallGoodsMap.containsKey(shoppingCartItemVO.getGoodsId())) {
                 BaseException.toss(ServiceResultEnum.SHOPPING_ITEM_ERROR.getResult());
             }
             //存在数量大于库存的情况，直接返回错误提醒
-            if (shoppingCartItemVO.getItemsCount() > newBeeMallGoodsMap.get(shoppingCartItemVO.getItemsId()).getStockNum()) {
+            if (shoppingCartItemVO.getGoodsCount() > newBeeMallGoodsMap.get(shoppingCartItemVO.getGoodsId()).getStockNum()) {
                 BaseException.toss(ServiceResultEnum.SHOPPING_ITEM_COUNT_ERROR.getResult());
             }
         }
@@ -226,7 +226,7 @@ public class OrderServiceImpl implements OrderService {
                 newBeeMallOrder.setUserId(loginMallUser.getUserId());
                 //总价
                 for (ShoppingCartItemVO newBeeMallShoppingCartItemVO : myShoppingCartItems) {
-                    priceTotal += newBeeMallShoppingCartItemVO.getItemsCount() * newBeeMallShoppingCartItemVO.getSellingPrice();
+                    priceTotal += newBeeMallShoppingCartItemVO.getGoodsCount() * newBeeMallShoppingCartItemVO.getSellingPrice();
                 }
                 if (priceTotal < 1) {
                     BaseException.toss(ServiceResultEnum.ORDER_PRICE_ERROR.getResult());

@@ -162,13 +162,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 BeanUtil.copyProperties(newBeeMallShoppingCartItem, newBeeMallShoppingCartItemVO);
                 if (newBeeMallGoodsMap.containsKey(newBeeMallShoppingCartItem.getGoodsId())) {
                     ItemsDO newBeeMallGoodsTemp = newBeeMallGoodsMap.get(newBeeMallShoppingCartItem.getGoodsId());
-                        newBeeMallShoppingCartItemVO.setItemsCoverImg(newBeeMallGoodsTemp.getGoodsCoverImg());
+                        newBeeMallShoppingCartItemVO.setGoodsCoverImg(newBeeMallGoodsTemp.getGoodsCoverImg());
                     String goodsName = newBeeMallGoodsTemp.getGoodsName();
                     // 字符串过长导致文字超出的问题
                     if (goodsName.length() > 28) {
                         goodsName = goodsName.substring(0, 28) + "...";
                     }
-                    newBeeMallShoppingCartItemVO.setItemsName(goodsName);
+                    newBeeMallShoppingCartItemVO.setGoodsName(goodsName);
                     newBeeMallShoppingCartItemVO.setSellingPrice(newBeeMallGoodsTemp.getSellingPrice());
                     newBeeMallShoppingCartItemVOS.add(newBeeMallShoppingCartItemVO);
                 }

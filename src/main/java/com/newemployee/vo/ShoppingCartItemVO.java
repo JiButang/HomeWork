@@ -10,16 +10,16 @@ public class ShoppingCartItemVO implements Serializable {
     private Long cartItemId;
 
     //商品id
-    private Long itemsId;
+    private Long goodsId;
 
     //商品数量
-    private Integer itemsCount;
+    private Integer goodsCount;
 
     //商品名称
-    private String itemsName;
+    private String goodsName;
 
     //商品图片
-    private String itemsCoverImg;
+    private String goodsCoverImg;
 
     //商品价格
     private Integer sellingPrice;
