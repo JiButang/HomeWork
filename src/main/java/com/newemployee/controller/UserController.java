@@ -13,8 +13,6 @@ import com.newemployee.util.NumberUtil;
 import com.newemployee.util.ResultGeneratorUtil;
 import com.newemployee.util.ResultUtil;
 import com.newemployee.vo.UserVO;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -33,7 +31,7 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/user/login")
-    @ApiOperation(value = "登录接口", notes = "返回token")
+    //登录接口, 返回token
     public ResultUtil<String> login(@RequestBody @Valid UserLoginParam mallUserLoginParam) {
         if (!NumberUtil.isPhone(mallUserLoginParam.getLoginName())){
             return ResultGeneratorUtil.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
@@ -54,7 +52,7 @@ public class UserController {
 
 
     @PostMapping("/user/logout")
-    @ApiOperation(value = "登出接口", notes = "清除token")
+    //登出接口, 清除token
     public ResultUtil<String> logout(@TokenToUserDO UserDO loginMallUser) {
         Boolean logoutResult = userService.logout(loginMallUser.getUserId());
 
@@ -70,7 +68,7 @@ public class UserController {
 
 
     @PostMapping("/user/register")
-    @ApiOperation(value = "用户注册", notes = "")
+    //用户注册
     public ResultUtil register(@RequestBody @Valid UserRegisterParam mallUserRegisterParam) {
         if (!NumberUtil.isPhone(mallUserRegisterParam.getLoginName())){
             return ResultGeneratorUtil.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
@@ -88,8 +86,8 @@ public class UserController {
     }
 
     @PutMapping("/user/info")
-    @ApiOperation(value = "修改用户信息", notes = "")
-    public ResultUtil updateInfo(@RequestBody @ApiParam("用户信息") UserUpdateParam mallUserUpdateParam, @TokenToUserDO UserDO loginMallUser) {
+    //修改用户信息
+    public ResultUtil updateInfo(@RequestBody UserUpdateParam mallUserUpdateParam, @TokenToUserDO UserDO loginMallUser) {
         Boolean flag = userService.updateUserInfo(mallUserUpdateParam, loginMallUser.getUserId());
         if (flag) {
             //返回成功
@@ -103,7 +101,7 @@ public class UserController {
     }
 
     @GetMapping("/user/info")
-    @ApiOperation(value = "获取用户信息", notes = "")
+    //获取用户信息
     public ResultUtil<UserVO> getUserDetail(@TokenToUserDO UserDO loginMallUser) {
         //已登录则直接返回
         UserVO mallUserVO = new UserVO();

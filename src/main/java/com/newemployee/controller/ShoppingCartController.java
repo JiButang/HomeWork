@@ -14,7 +14,6 @@ import com.newemployee.util.PageResultUtil;
 import com.newemployee.util.ResultGeneratorUtil;
 import com.newemployee.util.ResultUtil;
 import com.newemployee.vo.ShoppingCartItemVO;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,7 @@ public class ShoppingCartController {
     private ShoppingCartService newBeeMallShoppingCartService;
 
     @GetMapping("/shop-cart/page")
-    @ApiOperation(value = "购物车列表(每页默认5条)", notes = "传参为页码")
+    //购物车列表(每页默认5条), 传参为页码
     public ResultUtil<PageResultUtil<List<ShoppingCartItemVO>>> cartItemPageList(Integer pageNumber, @TokenToUserDO UserDO loginMallUser) {
         Map params = new HashMap(8);
         if (pageNumber == null || pageNumber < 1) {
@@ -47,13 +46,13 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/shop-cart")
-    @ApiOperation(value = "购物车列表(网页移动端不分页)", notes = "")
+    //购物车列表(网页移动端不分页)
     public ResultUtil<List<ShoppingCartItemVO>> cartItemList(@TokenToUserDO UserDO loginMallUser) {
         return ResultGeneratorUtil.genSuccessResult(newBeeMallShoppingCartService.getMyShoppingCartItems(loginMallUser.getUserId()));
     }
 
     @PostMapping("/shop-cart")
-    @ApiOperation(value = "添加商品到购物车接口", notes = "传参为商品id、数量")
+    //添加商品到购物车接口, 传参为商品id、数量
     public ResultUtil saveNewBeeMallShoppingCartItem(@RequestBody SaveCartItemParam saveCartItemParam,
                                                      @TokenToUserDO UserDO loginMallUser) {
         String saveResult = newBeeMallShoppingCartService.saveNewBeeMallCartItem(saveCartItemParam, loginMallUser.getUserId());
@@ -66,7 +65,7 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/shop-cart")
-    @ApiOperation(value = "修改购物项数据", notes = "传参为购物项id、数量")
+    //修改购物项数据, 传参为购物项id、数量
     public ResultUtil updateNewBeeMallShoppingCartItem(@RequestBody UpdateCartItemParam updateCartItemParam,
                                                    @TokenToUserDO UserDO loginMallUser) {
         String updateResult = newBeeMallShoppingCartService.updateNewBeeMallCartItem(updateCartItemParam, loginMallUser.getUserId());
@@ -79,7 +78,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/shop-cart/{newBeeMallShoppingCartItemId}")
-    @ApiOperation(value = "删除购物项", notes = "传参为购物项id")
+    //删除购物项, 传参为购物项id
     public ResultUtil updateNewBeeMallShoppingCartItem(@PathVariable("newBeeMallShoppingCartItemId") Long newBeeMallShoppingCartItemId,
                                                    @TokenToUserDO UserDO loginMallUser) {
         ShoppingCartItemDO newBeeMallCartItemById = newBeeMallShoppingCartService.getNewBeeMallCartItemById(newBeeMallShoppingCartItemId);
@@ -96,7 +95,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/shop-cart/settle")
-    @ApiOperation(value = "根据购物项id数组查询购物项明细", notes = "确认订单页面使用")
+    //根据购物项id数组查询购物项明细, 确认订单页面使用
     public ResultUtil<List<ShoppingCartItemVO>> toSettle(Long[] cartItemIds, @TokenToUserDO UserDO loginMallUser) {
         if (cartItemIds.length < 1) {
             BaseException.toss("参数异常");

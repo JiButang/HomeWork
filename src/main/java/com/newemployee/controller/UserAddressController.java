@@ -11,7 +11,6 @@ import com.newemployee.util.BeanUtil;
 import com.newemployee.util.ResultGeneratorUtil;
 import com.newemployee.util.ResultUtil;
 import com.newemployee.vo.UserAddressVO;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,13 +24,13 @@ public class UserAddressController {
     private UserAddressService userAddressService;
 
     @GetMapping("/address")
-    @ApiOperation(value = "我的收货地址列表", notes = "")
+    //我的收货地址列表
     public ResultUtil<List<UserAddressVO>> addressList(@TokenToUserDO UserDO loginMallUser) {
         return ResultGeneratorUtil.genSuccessResult(userAddressService.getMyAddresses(loginMallUser.getUserId()));
     }
 
     @PostMapping("/address")
-    @ApiOperation(value = "添加地址", notes = "")
+    //添加地址
     public ResultUtil<Boolean> saveUserAddress(@RequestBody SaveMallUserAddressParam saveMallUserAddressParam,
                                            @TokenToUserDO UserDO loginMallUser) {
         UserAddressDO userAddress = new UserAddressDO();
@@ -47,7 +46,7 @@ public class UserAddressController {
     }
 
     @PutMapping("/address")
-    @ApiOperation(value = "修改地址", notes = "")
+    //修改地址
     public ResultUtil<Boolean> updateMallUserAddress(@RequestBody UpdateUserAddressParam updateMallUserAddressParam,
                                                  @TokenToUserDO UserDO loginMallUser) {
         UserAddressDO mallUserAddressById = userAddressService.getMallUserAddressById(updateMallUserAddressParam.getAddressId());
@@ -67,7 +66,7 @@ public class UserAddressController {
     }
 
     @GetMapping("/address/{addressId}")
-    @ApiOperation(value = "获取收货地址详情", notes = "传参为地址id")
+    //获取收货地址详情, 传参为地址id
     public ResultUtil<UserAddressVO> getMallUserAddress(@PathVariable("addressId") Long addressId,
                                                               @TokenToUserDO UserDO loginMallUser) {
         UserAddressDO mallUserAddressById = userAddressService.getMallUserAddressById(addressId);
@@ -80,14 +79,14 @@ public class UserAddressController {
     }
 
     @GetMapping("/address/default")
-    @ApiOperation(value = "获取默认收货地址", notes = "无传参")
+    //获取默认收货地址
     public ResultUtil getDefaultMallUserAddress(@TokenToUserDO UserDO loginMallUser) {
         UserAddressDO mallUserAddressById = userAddressService.getMyDefaultAddressByUserId(loginMallUser.getUserId());
         return ResultGeneratorUtil.genSuccessResult(mallUserAddressById);
     }
 
     @DeleteMapping("/address/{addressId}")
-    @ApiOperation(value = "删除收货地址", notes = "传参为地址id")
+    //删除收货地址, 传参为地址id
     public ResultUtil deleteAddress(@PathVariable("addressId") Long addressId,
                                 @TokenToUserDO UserDO loginMallUser) {
         UserAddressDO mallUserAddressById = userAddressService.getMallUserAddressById(addressId);

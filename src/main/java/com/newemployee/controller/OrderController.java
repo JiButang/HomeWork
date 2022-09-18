@@ -17,8 +17,6 @@ import com.newemployee.util.ResultUtil;
 import com.newemployee.vo.OrderDetailVO;
 import com.newemployee.vo.OrderListVO;
 import com.newemployee.vo.ShoppingCartItemVO;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +38,8 @@ public class OrderController {
     private UserAddressService userAddressService;
 
     @PostMapping("/saveOrder")
-    @ApiOperation(value = "生成订单接口", notes = "传参为地址id和待结算的购物项id数组")
-    public ResultUtil<String> saveOrder(@ApiParam(value = "订单参数") @RequestBody SaveOrderParam saveOrderParam, @TokenToUserDO UserDO loginMallUser) {
+    //生成订单接口, 传参为地址id和待结算的购物项id数组
+    public ResultUtil<String> saveOrder(@RequestBody SaveOrderParam saveOrderParam, @TokenToUserDO UserDO loginMallUser) {
         int priceTotal = 0;
         if (saveOrderParam == null || saveOrderParam.getCartItemIds() == null || saveOrderParam.getAddressId() == null) {
             BaseException.toss(ServiceResultEnum.PARAM_ERROR.getResult());
@@ -75,15 +73,15 @@ public class OrderController {
     }
 
     @GetMapping("/order/{orderNo}")
-    @ApiOperation(value = "订单详情接口", notes = "传参为订单号")
-    public ResultUtil<OrderDetailVO> orderDetailPage(@ApiParam(value = "订单号") @PathVariable("orderNo") String orderNo, @TokenToUserDO UserDO loginMallUser) {
+    //订单详情接口,传参为订单号
+    public ResultUtil<OrderDetailVO> orderDetailPage(@PathVariable("orderNo") String orderNo, @TokenToUserDO UserDO loginMallUser) {
         return ResultGeneratorUtil.genSuccessResult(orderService.getOrderDetailByOrderNo(orderNo, loginMallUser.getUserId()));
     }
 
     @GetMapping("/order")
-    @ApiOperation(value = "订单列表接口", notes = "传参为页码")
-    public ResultUtil<PageResultUtil<List<OrderListVO>>> orderList(@ApiParam(value = "页码") @RequestParam(required = false) Integer pageNumber,
-                                                                   @ApiParam(value = "订单状态:0.待支付 1.待确认 2.待发货 3:已发货 4.交易成功") @RequestParam(required = false) Integer status,
+    //订单列表接口, 传参为页码
+    public ResultUtil<PageResultUtil<List<OrderListVO>>> orderList(@RequestParam(required = false) Integer pageNumber,
+                                                                   @RequestParam(required = false) Integer status,
                                                                    @TokenToUserDO UserDO loginMallUser) {
         Map params = new HashMap(8);
         if (pageNumber == null || pageNumber < 1) {
@@ -99,8 +97,8 @@ public class OrderController {
     }
 
     @PutMapping("/order/{orderNo}/cancel")
-    @ApiOperation(value = "订单取消接口", notes = "传参为订单号")
-    public ResultUtil cancelOrder(@ApiParam(value = "订单号") @PathVariable("orderNo") String orderNo, @TokenToUserDO UserDO loginMallUser) {
+    //订单取消接口, 传参为订单号
+    public ResultUtil cancelOrder(@PathVariable("orderNo") String orderNo, @TokenToUserDO UserDO loginMallUser) {
         String cancelOrderResult = orderService.cancelOrder(orderNo, loginMallUser.getUserId());
         if (ServiceResultEnum.SUCCESS.getResult().equals(cancelOrderResult)) {
             return ResultGeneratorUtil.genSuccessResult();
@@ -110,8 +108,8 @@ public class OrderController {
     }
 
     @PutMapping("/order/{orderNo}/finish")
-    @ApiOperation(value = "确认收货接口", notes = "传参为订单号")
-    public ResultUtil finishOrder(@ApiParam(value = "订单号") @PathVariable("orderNo") String orderNo, @TokenToUserDO UserDO loginMallUser) {
+    //确认收货接口, 传参为订单号
+    public ResultUtil finishOrder(@PathVariable("orderNo") String orderNo, @TokenToUserDO UserDO loginMallUser) {
         String finishOrderResult = orderService.finishOrder(orderNo, loginMallUser.getUserId());
         if (ServiceResultEnum.SUCCESS.getResult().equals(finishOrderResult)) {
             return ResultGeneratorUtil.genSuccessResult();
@@ -121,8 +119,8 @@ public class OrderController {
     }
 
     @GetMapping("/paySuccess")
-    @ApiOperation(value = "模拟支付成功回调的接口", notes = "传参为订单号和支付方式")
-    public ResultUtil paySuccess(@ApiParam(value = "订单号") @RequestParam("orderNo") String orderNo, @ApiParam(value = "支付方式") @RequestParam("payType") int payType) {
+    //模拟支付成功回调的接口, 传参为订单号和支付方式
+    public ResultUtil paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType) {
         String payResult = orderService.paySuccess(orderNo, payType);
         if (ServiceResultEnum.SUCCESS.getResult().equals(payResult)) {
             return ResultGeneratorUtil.genSuccessResult();
