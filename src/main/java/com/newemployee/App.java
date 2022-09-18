@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Hello world!
  *
  */
-@MapperScan("com.newemployee")
+@MapperScan("com.newemployee.dao")
 @SpringBootApplication(scanBasePackages = {"com.newemployee"})
 @RestController
 public class App
