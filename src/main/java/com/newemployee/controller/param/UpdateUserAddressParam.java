@@ -6,7 +6,7 @@ import lombok.Data;
  * 修改收货地址param
  */
 @Data
-public class UpdateMallUserAddressParam {
+public class UpdateUserAddressParam {
 
     //地址id
     private Long addressId;

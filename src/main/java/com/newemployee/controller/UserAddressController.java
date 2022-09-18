@@ -3,7 +3,7 @@ package com.newemployee.controller;
 import com.newemployee.common.ServiceResultEnum;
 import com.newemployee.config.annotation.TokenToUserDO;
 import com.newemployee.controller.param.SaveMallUserAddressParam;
-import com.newemployee.controller.param.UpdateMallUserAddressParam;
+import com.newemployee.controller.param.UpdateUserAddressParam;
 import com.newemployee.dataobject.UserAddressDO;
 import com.newemployee.dataobject.UserDO;
 import com.newemployee.service.UserAddressService;
@@ -48,7 +48,7 @@ public class UserAddressController {
 
     @PutMapping("/address")
     @ApiOperation(value = "修改地址", notes = "")
-    public ResultUtil<Boolean> updateMallUserAddress(@RequestBody UpdateMallUserAddressParam updateMallUserAddressParam,
+    public ResultUtil<Boolean> updateMallUserAddress(@RequestBody UpdateUserAddressParam updateMallUserAddressParam,
                                                  @TokenToUserDO UserDO loginMallUser) {
         UserAddressDO mallUserAddressById = userAddressService.getMallUserAddressById(updateMallUserAddressParam.getAddressId());
         if (!loginMallUser.getUserId().equals(mallUserAddressById.getUserId())) {
