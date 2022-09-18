@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class UserController {
 
     @Resource

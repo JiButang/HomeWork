@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class IndexController {
 
     @Resource

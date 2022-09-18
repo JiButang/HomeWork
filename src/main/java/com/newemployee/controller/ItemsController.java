@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class ItemsController {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemsController.class);
