@@ -36,6 +36,9 @@ public class UserController {
         if (!NumberUtil.isPhone(mallUserLoginParam.getLoginName())){
             return ResultGeneratorUtil.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
         }
+        if (!NumberUtil.isQualifiedPassword(mallUserLoginParam.getPasswordMd5())){
+            return ResultGeneratorUtil.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_IS_NOT_QUALIFIED.getResult());
+        }
         String loginResult = userService.login(mallUserLoginParam.getLoginName(), mallUserLoginParam.getPasswordMd5());
 
         logger.info("login api,loginName={},loginResult={}", mallUserLoginParam.getLoginName(), loginResult);
@@ -72,6 +75,9 @@ public class UserController {
     public ResultUtil register(@RequestBody @Valid UserRegisterParam mallUserRegisterParam) {
         if (!NumberUtil.isPhone(mallUserRegisterParam.getLoginName())){
             return ResultGeneratorUtil.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
+        }
+        if (!NumberUtil.isQualifiedPassword(mallUserRegisterParam.getPassword())){
+            return ResultGeneratorUtil.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_IS_NOT_QUALIFIED.getResult());
         }
         String registerResult = userService.register(mallUserRegisterParam.getLoginName(), mallUserRegisterParam.getPassword());
 

@@ -15,6 +15,13 @@ public class NumberUtil {
         return matcher.matches();
     }
 
+    //至少八个字符，至少一个字母和一个数字
+    public static boolean isQualifiedPassword(String password){
+        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
     //生成指定长度的随机数
     public static int genRandomNum(int length) {
         int num = 1;
