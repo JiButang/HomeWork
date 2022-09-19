@@ -28,7 +28,7 @@ import java.util.Map;
 public class ShoppingCartController {
 
     @Resource
-    private ShoppingCartService newBeeMallShoppingCartService;
+    private ShoppingCartService shoppingCartService;
 
     @GetMapping("/shop-cart/page")
     //购物车列表(每页默认5条), 传参为页码
@@ -42,20 +42,20 @@ public class ShoppingCartController {
         params.put("limit", Constants.SHOPPING_CART_PAGE_LIMIT);
         //封装分页请求参数
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGeneratorUtil.genSuccessResult(newBeeMallShoppingCartService.getMyShoppingCartItems(pageUtil));
+        return ResultGeneratorUtil.genSuccessResult(shoppingCartService.getMyShoppingCartItems(pageUtil));
     }
 
     @GetMapping("/shop-cart")
     //购物车列表(网页移动端不分页)
     public ResultUtil<List<ShoppingCartItemVO>> cartItemList(@TokenToUserDO UserDO loginMallUser) {
-        return ResultGeneratorUtil.genSuccessResult(newBeeMallShoppingCartService.getMyShoppingCartItems(loginMallUser.getUserId()));
+        return ResultGeneratorUtil.genSuccessResult(shoppingCartService.getMyShoppingCartItems(loginMallUser.getUserId()));
     }
 
     @PostMapping("/shop-cart")
     //添加商品到购物车接口, 传参为商品id、数量
     public ResultUtil saveNewBeeMallShoppingCartItem(@RequestBody SaveCartItemParam saveCartItemParam,
                                                      @TokenToUserDO UserDO loginMallUser) {
-        String saveResult = newBeeMallShoppingCartService.saveNewBeeMallCartItem(saveCartItemParam, loginMallUser.getUserId());
+        String saveResult = shoppingCartService.saveNewBeeMallCartItem(saveCartItemParam, loginMallUser.getUserId());
         //添加成功
         if (ServiceResultEnum.SUCCESS.getResult().equals(saveResult)) {
             return ResultGeneratorUtil.genSuccessResult();
@@ -68,7 +68,7 @@ public class ShoppingCartController {
     //修改购物项数据, 传参为购物项id、数量
     public ResultUtil updateNewBeeMallShoppingCartItem(@RequestBody UpdateCartItemParam updateCartItemParam,
                                                    @TokenToUserDO UserDO loginMallUser) {
-        String updateResult = newBeeMallShoppingCartService.updateNewBeeMallCartItem(updateCartItemParam, loginMallUser.getUserId());
+        String updateResult = shoppingCartService.updateNewBeeMallCartItem(updateCartItemParam, loginMallUser.getUserId());
         //修改成功
         if (ServiceResultEnum.SUCCESS.getResult().equals(updateResult)) {
             return ResultGeneratorUtil.genSuccessResult();
@@ -81,11 +81,11 @@ public class ShoppingCartController {
     //删除购物项, 传参为购物项id
     public ResultUtil updateNewBeeMallShoppingCartItem(@PathVariable("newBeeMallShoppingCartItemId") Long newBeeMallShoppingCartItemId,
                                                    @TokenToUserDO UserDO loginMallUser) {
-        ShoppingCartItemDO newBeeMallCartItemById = newBeeMallShoppingCartService.getNewBeeMallCartItemById(newBeeMallShoppingCartItemId);
+        ShoppingCartItemDO newBeeMallCartItemById = shoppingCartService.getNewBeeMallCartItemById(newBeeMallShoppingCartItemId);
         if (!loginMallUser.getUserId().equals(newBeeMallCartItemById.getUserId())) {
             return ResultGeneratorUtil.genFailResult(ServiceResultEnum.REQUEST_FORBIDEN_ERROR.getResult());
         }
-        Boolean deleteResult = newBeeMallShoppingCartService.deleteById(newBeeMallShoppingCartItemId,loginMallUser.getUserId());
+        Boolean deleteResult = shoppingCartService.deleteById(newBeeMallShoppingCartItemId,loginMallUser.getUserId());
         //删除成功
         if (deleteResult) {
             return ResultGeneratorUtil.genSuccessResult();
@@ -101,7 +101,7 @@ public class ShoppingCartController {
             BaseException.toss("参数异常");
         }
         int priceTotal = 0;
-        List<ShoppingCartItemVO> itemsForSettle = newBeeMallShoppingCartService.getCartItemsForSettle(Arrays.asList(cartItemIds), loginMallUser.getUserId());
+        List<ShoppingCartItemVO> itemsForSettle = shoppingCartService.getCartItemsForSettle(Arrays.asList(cartItemIds), loginMallUser.getUserId());
         if (CollectionUtils.isEmpty(itemsForSettle)) {
             //无数据则抛出异常
             BaseException.toss("参数异常");

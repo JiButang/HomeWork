@@ -17,6 +17,8 @@ public enum ServiceResultEnum {
 
     LOGIN_NAME_IS_NOT_PHONE("请输入正确的手机号！"),
 
+    LOGIN_PASSWORD_IS_NOT_QUALIFIED("请输入合格的密码！"),
+
     LOGIN_PASSWORD_NULL("请输入密码！"),
 
     LOGIN_VERIFY_CODE_NULL("请输入验证码！"),

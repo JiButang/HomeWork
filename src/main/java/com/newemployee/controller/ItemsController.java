@@ -27,7 +27,7 @@ public class ItemsController {
     private static final Logger logger = LoggerFactory.getLogger(ItemsController.class);
 
     @Resource
-    private ItemsService newBeeMallGoodsService;
+    private ItemsService itemsService;
 
     @GetMapping("/search")
     //商品搜索接口, 根据关键字和分类id进行搜索
@@ -61,7 +61,7 @@ public class ItemsController {
         params.put("goodsSellStatus", Constants.SELL_STATUS_UP);
         //封装商品数据
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGeneratorUtil.genSuccessResult(newBeeMallGoodsService.searchItems(pageUtil));
+        return ResultGeneratorUtil.genSuccessResult(itemsService.searchItems(pageUtil));
     }
 
     @GetMapping("/goods/detail/{goodsId}")
@@ -71,7 +71,7 @@ public class ItemsController {
         if (goodsId < 1) {
             return ResultGeneratorUtil.genFailResult("参数异常");
         }
-        ItemsDO goods = newBeeMallGoodsService.getItemsById(goodsId);
+        ItemsDO goods = itemsService.getItemsById(goodsId);
         if (Constants.SELL_STATUS_UP != goods.getGoodsSellStatus()) {
             BaseException.toss(ServiceResultEnum.GOODS_PUT_DOWN.getResult());
         }

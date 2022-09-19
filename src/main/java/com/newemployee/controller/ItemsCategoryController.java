@@ -19,12 +19,12 @@ import java.util.List;
 public class ItemsCategoryController {
 
     @Resource
-    private CategoryService newBeeMallCategoryService;
+    private CategoryService categoryService;
 
     @GetMapping("/categories")
     //获取分类数据, 分类页面使用
     public ResultUtil<List<IndexCategoryVO>> getCategories() {
-        List<IndexCategoryVO> categories = newBeeMallCategoryService.getCategoriesForIndex();
+        List<IndexCategoryVO> categories = categoryService.getCategoriesForIndex();
         if (CollectionUtils.isEmpty(categories)) {
             BaseException.toss(ServiceResultEnum.DATA_NOT_EXIST.getResult());
         }
